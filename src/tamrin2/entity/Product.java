@@ -1,4 +1,4 @@
-package tamrin3.entity;
+package tamrin2.entity;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

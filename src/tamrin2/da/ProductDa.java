@@ -1,4 +1,4 @@
-package tamrin3.da;
+package tamrin2.da;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

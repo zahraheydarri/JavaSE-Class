@@ -1,6 +1,6 @@
-package tamrin3;
+package tamrin2;
 
-import tamrin3.entity.Product;
+import tamrin2.entity.Product;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
