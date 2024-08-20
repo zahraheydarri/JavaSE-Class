@@ -5,4 +5,4 @@ create table  product_tbl (
      count number
 );
 
-create sequence product_seq start with 1 increment by 1;
+create sequence product1_seq start with 1 increment by 1;
