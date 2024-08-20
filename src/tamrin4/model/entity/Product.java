@@ -12,11 +12,12 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 
 public class Product {
-    private int id;
-    private String name;
+    private int productId;
+    private String productName;
     private Brand brand;
     private double price;
     private int count;
+    private Person owner;
 
     @Override
     public String toString() {

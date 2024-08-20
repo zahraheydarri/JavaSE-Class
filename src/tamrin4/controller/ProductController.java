@@ -13,7 +13,6 @@ import tamrin4.model.utils.Validation;
 
 import java.net.URL;
 import java.util.List;
-import java.util.Observable;
 import java.util.ResourceBundle;
 
 public class ProductController implements Initializable {
@@ -52,7 +51,7 @@ public class ProductController implements Initializable {
             try (ProductDa productDa = new ProductDa()) {
             Product product = Product
                     .builder()
-                    .name(validation.nameValidator(nameTxt.getText()))
+                    .productName(validation.nameValidator(nameTxt.getText()))
                     .brand(Brand.valueOf(brandCmb.getSelectionModel().getSelectedItem()))
                     .price(Double.parseDouble(priceTxt.getText()))
                     .count(Integer.parseInt(countTxt.getText()))
@@ -72,8 +71,8 @@ public class ProductController implements Initializable {
             try (ProductDa productDa = new ProductDa()) {
                 Product product = Product
                         .builder()
-                        .id(Integer.parseInt(idTxt.getText()))
-                        .name(validation.nameValidator(nameTxt.getText()))
+                        .productId(Integer.parseInt(idTxt.getText()))
+                        .productName(validation.nameValidator(nameTxt.getText()))
                         .brand(Brand.valueOf(brandCmb.getSelectionModel().getSelectedItem()))
                         .price(Double.parseDouble(priceTxt.getText()))
                         .count(Integer.parseInt(countTxt.getText()))
@@ -108,8 +107,8 @@ public class ProductController implements Initializable {
 
         pInfo.setOnMouseReleased(event -> {
             Product product = pInfo.getSelectionModel().getSelectedItem();
-            idTxt.setText(String.valueOf(product.getId()));
-            nameTxt.setText(product.getName());
+            idTxt.setText(String.valueOf(product.getProductId()));
+            nameTxt.setText(product.getProductName());
             brandCmb.getSelectionModel().select(product.getBrand().name());
             priceTxt.setText(String.valueOf(product.getPrice()));
             countTxt.setText(String.valueOf(product.getCount()));
