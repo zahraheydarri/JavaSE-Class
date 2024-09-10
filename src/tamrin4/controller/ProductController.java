@@ -10,7 +10,9 @@ import lombok.extern.log4j.Log4j;
 import tamrin4.model.da.ProductDa;
 import tamrin4.model.entity.Brand;
 import tamrin4.model.entity.Product;
+import tamrin4.model.entity.Profile;
 import tamrin4.model.utils.Validation;
+import tamrin4.view.dto.FormState;
 
 import java.net.URL;
 import java.util.List;
@@ -42,6 +44,22 @@ public class ProductController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        Profile profile = FormState.profile;
+
+        String accessLevel = profile.getAccessLevel();
+        if(accessLevel.charAt(0) == '0'){
+            saveBtn.setVisible(false);
+        }
+
+        if(accessLevel.charAt(1) == '0'){
+            editBtn.setVisible(false);
+        }
+
+        if(accessLevel.charAt(2) == '0'){
+            removeBtn.setVisible(false);
+        }
+
+
         for (Brand brand : Brand.values()){
             brandCmb.getItems().add(brand.name());
         }
