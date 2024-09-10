@@ -1,5 +1,6 @@
 package tamrin4.model.utils;
 
+import lombok.Getter;
 import org.apache.commons.dbcp2.BasicDataSource;
 
 import java.sql.Connection;
@@ -8,13 +9,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class JdbcProvider {
-    private static JdbcProvider jdbcProvider = new JdbcProvider();
-    private BasicDataSource basicDataSource = new BasicDataSource();
+    @Getter
+    private final static JdbcProvider jdbcProvider = new JdbcProvider();
+    private final static BasicDataSource basicDataSource = new BasicDataSource();
 
-    public JdbcProvider() {
+    private JdbcProvider() {
 
     }
-    public static JdbcProvider getJdbc() {return jdbcProvider;}
+//    public static JdbcProvider getJdbc() {return jdbcProvider;}
 
     public Connection getConnection() throws SQLException {
         basicDataSource.setDriverClassName("oracle.jdbc.driver.OracleDriver");

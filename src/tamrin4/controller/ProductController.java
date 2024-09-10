@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import lombok.extern.log4j.Log4j;
 import tamrin4.model.da.ProductDa;
 import tamrin4.model.entity.Brand;
 import tamrin4.model.entity.Product;
@@ -64,6 +65,7 @@ public class ProductController implements Initializable {
             } catch (Exception e){
                 Alert alert = new Alert(Alert.AlertType.ERROR,"Product save Error\n" + e.getMessage());
                 alert.show();
+
             }
         });
 

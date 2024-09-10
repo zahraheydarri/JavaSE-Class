@@ -1,5 +1,6 @@
 package tamrin4.model.da;
 
+import lombok.extern.log4j.Log4j;
 import tamrin4.model.entity.Brand;
 import tamrin4.model.entity.Product;
 import tamrin4.model.utils.JdbcProvider;
@@ -11,6 +12,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+@Log4j
+
 public class ProductDa implements DataAccess<Product , Integer>{
     private Connection connection;
     private PreparedStatement preparedStatement;
@@ -20,7 +23,7 @@ public class ProductDa implements DataAccess<Product , Integer>{
 
     @Override
     public void save(Product product) throws Exception {
-        connection = JdbcProvider.getJdbc().getConnection();
+        connection = JdbcProvider.getJdbcProvider().getConnection();
         preparedStatement = connection.prepareStatement(
                 "SELECT PRODUCT_SEQ.nextval AS NEXT_ID FROM dual"
         );
@@ -37,11 +40,13 @@ public class ProductDa implements DataAccess<Product , Integer>{
         preparedStatement.setDouble(4, product.getPrice());
         preparedStatement.setInt(5,product.getCount());
         preparedStatement.execute();
+
+        log.info("product saved");
     }
 
     @Override
     public void edit(Product product) throws Exception {
-        connection = JdbcProvider.getJdbc().getConnection();
+        connection = JdbcProvider.getJdbcProvider().getConnection();
         preparedStatement = connection.prepareStatement(
                 "update PRODUCT_TBL set NAME=? , FAMILY=?, PRICE=?, COUNT=? where PRODUCT_ID=?"
         );
@@ -52,21 +57,25 @@ public class ProductDa implements DataAccess<Product , Integer>{
         preparedStatement.setInt(5, product.getProductId());
         preparedStatement.execute();
 
+        log.info("product edited");
+
     }
 
     @Override
     public void remove(Integer id) throws Exception {
-        connection = JdbcProvider.getJdbc().getConnection();
+        connection = JdbcProvider.getJdbcProvider().getConnection();
         preparedStatement = connection.prepareStatement(
                 "DELETE FROM PRODUCT_TBL WHERE PRODUCT_ID=?"
         );
         preparedStatement.setInt(1, id);
         preparedStatement.execute();
+
+        log.info("product removed");
     }
 
     @Override
     public List<Product> findAll() throws Exception {
-        connection = JdbcProvider.getJdbc().getConnection();
+        connection = JdbcProvider.getJdbcProvider().getConnection();
         preparedStatement = connection.prepareStatement(
                 "SELECT * FROM PRODUCT_TBL"
         );
@@ -87,12 +96,13 @@ public class ProductDa implements DataAccess<Product , Integer>{
                             .build();
             productList.add(product);
         }
+        log.info("product list loaded");
         return productList;
     }
 
     @Override
     public Product findById(Integer id) throws Exception {
-        connection = JdbcProvider.getJdbc().getConnection();
+        connection = JdbcProvider.getJdbcProvider().getConnection();
         preparedStatement = connection.prepareStatement(
                 "SELECT * FROM PRODUCT_TBL WHERE PRODUCT_ID=?"
         );
@@ -111,13 +121,14 @@ public class ProductDa implements DataAccess<Product , Integer>{
                             //.owner()
                             .build();
         }
+        log.info("product found by id");
         return product;
     }
 
 
 
     public List<Product> findByBrand(Brand brand) throws Exception {
-        connection = JdbcProvider.getJdbc().getConnection();
+        connection = JdbcProvider.getJdbcProvider().getConnection();
         preparedStatement = connection.prepareStatement(
                 "SELECT * FROM PRODUCT_TBL WHERE BRAND=?"
         );
@@ -137,6 +148,7 @@ public class ProductDa implements DataAccess<Product , Integer>{
                             .build();
             productList.add(product);
         }
+        log.info("product found by brand");
         return productList;
     }
 

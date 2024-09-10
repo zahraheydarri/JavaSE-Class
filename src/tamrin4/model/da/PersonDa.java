@@ -1,5 +1,6 @@
 package tamrin4.model.da;
 
+import lombok.extern.log4j.Log4j;
 import tamrin4.model.entity.Person;
 import tamrin4.model.utils.JdbcProvider;
 
@@ -10,6 +11,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+@Log4j
+
 public class PersonDa implements DataAccess<Person , Integer>{
     private Connection connection;
     private PreparedStatement preparedStatement;
@@ -19,7 +22,7 @@ public class PersonDa implements DataAccess<Person , Integer>{
 
     @Override
     public void save(Person person) throws Exception {
-        connection = JdbcProvider.getJdbc().getConnection();
+        connection = JdbcProvider.getJdbcProvider().getConnection();
         preparedStatement = connection.prepareStatement(
                 "SELECT PERSON1_SEQ.nextval AS NEXT_ID FROM dual"
         );
@@ -34,11 +37,13 @@ public class PersonDa implements DataAccess<Person , Integer>{
         preparedStatement.setString(2, person.getPersonName());
         preparedStatement.setString(3,person.getFamily());
         preparedStatement.execute();
+
+        log.info("Person saved");
     }
 
     @Override
     public void edit(Person person) throws Exception {
-        connection = JdbcProvider.getJdbc().getConnection();
+        connection = JdbcProvider.getJdbcProvider().getConnection();
         preparedStatement = connection.prepareStatement(
                 "UPDATE PERSON_TBL SET NAME=? , FAMILY=? WHERE PERSON_ID=?"
         );
@@ -47,21 +52,24 @@ public class PersonDa implements DataAccess<Person , Integer>{
         preparedStatement.setInt(3, person.getPersonId());
         preparedStatement.execute();
 
+        log.info("Person edited");
     }
 
     @Override
     public void remove(Integer id) throws Exception {
-        connection = JdbcProvider.getJdbc().getConnection();
+        connection = JdbcProvider.getJdbcProvider().getConnection();
         preparedStatement = connection.prepareStatement(
                 "DELETE FROM PERSON_TBL WHERE PERSON_ID=?"
         );
         preparedStatement.setInt(1, id);
         preparedStatement.execute();
+
+        log.info("Person removed");
     }
 
     @Override
     public List<Person> findAll() throws Exception {
-        connection = JdbcProvider.getJdbc().getConnection();
+        connection = JdbcProvider.getJdbcProvider().getConnection();
         preparedStatement = connection.prepareStatement(
                 "SELECT * FROM PERSON_TBL"
         );
@@ -79,12 +87,13 @@ public class PersonDa implements DataAccess<Person , Integer>{
                             .build();
             personList.add(person);
         }
+        log.info("Person found");
         return personList;
     }
 
     @Override
     public Person findById(Integer id) throws Exception {
-        connection = JdbcProvider.getJdbc().getConnection();
+        connection = JdbcProvider.getJdbcProvider().getConnection();
         preparedStatement = connection.prepareStatement(
                 "SELECT * FROM PERSON_TBL WHERE PERSON_ID=?"
         );
@@ -101,11 +110,12 @@ public class PersonDa implements DataAccess<Person , Integer>{
                             //.productList()
                             .build();
         }
+        log.info("Person found by ID");
         return person;
     }
 
     public List<Person> findByFamily(String family) throws Exception {
-        connection = JdbcProvider.getJdbc().getConnection();
+        connection = JdbcProvider.getJdbcProvider().getConnection();
         preparedStatement = connection.prepareStatement(
                 "SELECT * FROM PERSON_TBL WHERE FAMILY=?"
         );
@@ -123,6 +133,7 @@ public class PersonDa implements DataAccess<Person , Integer>{
                             .build();
             personList.add(person);
         }
+        log.info("Person found by Family");
         return personList;
     }
 
